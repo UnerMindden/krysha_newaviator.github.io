@@ -1,0 +1,5 @@
+date	size'/'remotesize	flags(request:Update,Range state:File response:Modified,Chunked,gZipped)	statuscode	status ('servermsg')	MIME	Etag|Date	URL	localfile	(from URL)
+01:58:36	11230/11230	---MCZ	200	added ('OK')	text/html	date:Fri,%2028%20Feb%202025%2022:58:35%20GMT	https://negociowin.ru/xxx/aviator	D:/test/negociowin.ru/xxx/aviator.html	(from )
+01:58:36	173/173	---MCZ	404	error ('NOT%20FOUND')	text/html	date:Fri,%2028%20Feb%202025%2022:58:35%20GMT	https://negociowin.ru/robots.txt		(from )
+01:58:36	6875/6875	---M--	200	added ('OK')	image/png	etag:%226793cf79-1adb%22	https://negociowin.ru/static/aviator_jogo.png	D:/test/negociowin.ru/static/aviator_jogo.png	(from https://negociowin.ru/xxx/aviator)
+01:58:36	359431/359431	---M--	200	added ('OK')	image/jpeg	etag:%226793cf7c-57c07%22	https://negociowin.ru/static/aviator1.jpeg	D:/test/negociowin.ru/static/aviator1.jpg	(from https://negociowin.ru/xxx/aviator)

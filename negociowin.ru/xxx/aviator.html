@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+  <!-- Mirrored from negociowin.ru/xxx/aviator by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 28 Feb 2025 22:58:36 GMT -->
+  <!-- Added by HTTrack --><meta
+    http-equiv="content-type"
+    content="text/html;charset=utf-8"
+  /><!-- /Added by HTTrack -->
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Aviator Animation</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        background-color: black;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        overflow: hidden;
+        flex-direction: column;
+      }
+
+      #title {
+        color: #fff;
+        font-size: 32px;
+        font-family: "Arial Black", sans-serif;
+        margin-bottom: 30px;
+        position: fixed;
+        top: 150px;
+        left: 50%;
+        transform: translateX(-50%);
+        white-space: nowrap;
+        z-index: 1000;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        background: linear-gradient(to right, #ff0033, #ff3333);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        padding: 10px 20px;
+        border-radius: 5px;
+        animation: titleAnimation 2s ease-in-out infinite alternate;
+      }
+
+      @keyframes titleAnimation {
+        0% {
+          text-shadow: 0 0 10px rgba(255, 0, 51, 0.7),
+            0 0 20px rgba(255, 0, 51, 0.5), 0 0 30px rgba(255, 0, 51, 0.3);
+          transform: translateX(-50%) scale(1);
+        }
+        100% {
+          text-shadow: 0 0 15px rgba(255, 0, 51, 0.9),
+            0 0 25px rgba(255, 0, 51, 0.7), 0 0 35px rgba(255, 0, 51, 0.5);
+          transform: translateX(-50%) scale(1.05);
+        }
+      }
+
+      #title::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 2px;
+        background: linear-gradient(
+          to right,
+          transparent,
+          #ff0033,
+          transparent
+        );
+        animation: lineAnimation 2s ease-in-out infinite alternate;
+      }
+
+      @keyframes lineAnimation {
+        0% {
+          opacity: 0.5;
+          transform: scaleX(0.8);
+        }
+        100% {
+          opacity: 1;
+          transform: scaleX(1);
+        }
+      }
+
+      #counterWrapper {
+        position: relative;
+        width: 100%;
+        max-width: 500px;
+        height: 250px;
+        border-radius: 20px;
+        overflow: hidden;
+        border: 1px solid #2a2b2e;
+        margin-bottom: 20px;
+      }
+
+      #bg-image {
+        position: absolute;
+        width: 300%;
+        height: 450%;
+        overflow: hidden;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 1;
+      }
+
+      #bg-image::before {
+        content: "";
+        background-image: url("../static/aviator1.jpg");
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        min-width: 100%;
+        top: 0;
+        left: 0;
+        animation: rotation 8s infinite linear;
+        transform-origin: 50% 50%;
+      }
+
+      @keyframes rotation {
+        from {
+          transform: rotate(0deg);
+        }
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      #canvas {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        z-index: 2;
+        background: transparent;
+      }
+
+      #counter {
+        position: absolute;
+        bottom: 20px;
+        right: 20px;
+        font-size: 42px;
+        font-family: Arial, sans-serif;
+        font-weight: bold;
+        color: white;
+        z-index: 3;
+        transition: color 0.3s ease;
+      }
+
+      #startButton {
+        padding: 15px 40px;
+        font-size: 20px;
+        font-weight: bold;
+        color: white;
+        background: linear-gradient(145deg, #ff0033, #cc0033);
+        border: none;
+        border-radius: 25px;
+        cursor: pointer;
+        text-transform: uppercase;
+        box-shadow: 0 4px 15px rgba(255, 0, 51, 0.3);
+        transition: all 0.3s ease;
+        margin-top: 20px;
+      }
+
+      #startButton:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(255, 0, 51, 0.4);
+      }
+
+      #startButton:active {
+        transform: translateY(1px);
+        box-shadow: 0 2px 10px rgba(255, 0, 51, 0.3);
+      }
+
+      #startButton:disabled {
+        opacity: 0.7;
+        cursor: not-allowed;
+      }
+
+      #arrows-container {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 150px;
+        pointer-events: none;
+        z-index: 1000;
+      }
+
+      .arrow-indicator {
+        position: absolute;
+        color: #2ecc71;
+        font-weight: bold;
+        font-family: Arial, sans-serif;
+        display: flex;
+        align-items: center;
+        opacity: 0;
+        font-size: 18px;
+        text-shadow: 0 0 5px rgba(46, 204, 113, 0.5);
+        animation: arrowFly 1.5s ease-out forwards;
+      }
+
+      .arrow-indicator::before {
+        content: "↑";
+        margin-right: 5px;
+        font-size: 24px;
+      }
+
+      @keyframes arrowFly {
+        0% {
+          opacity: 0;
+          transform: translateY(0);
+        }
+        20% {
+          opacity: 1;
+        }
+        100% {
+          opacity: 0;
+          transform: translateY(-150px);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="title">KRYSHA AVIATOR</div>
+    <div id="counterWrapper">
+      <div id="bg-image"></div>
+      <canvas id="canvas"></canvas>
+      <div id="counter">0.00x</div>
+    </div>
+    <button id="startButton">Start</button>
+    <div id="arrows-container"></div>
+
+    <script>
+      const canvas = document.getElementById("canvas");
+      const ctx = canvas.getContext("2d");
+      const counterElement = document.getElementById("counter");
+
+      let speedX = 3;
+      let speedY = 1;
+      canvas.width = 800;
+      canvas.height = 250;
+      let x = 0;
+      let y = canvas.height;
+      let dotPath = [];
+      let isAnimating = false;
+      let counter = 0.0;
+      let randomStop = Math.random() * (10 - 0.1) + 0.8;
+      let isFlying = true;
+
+      const image = new Image();
+      image.src = "../static/aviator_jogo.png";
+      image.style.minWidth = "100%";
+      image.style.width = "100%";
+
+      const startButton = document.getElementById("startButton");
+
+      const arrowsContainer = document.getElementById("arrows-container");
+
+      function getRandomStop() {
+        const rand = Math.random() * 100;
+        if (rand < 50) return Math.random() * (5 - 3) + 3; // 50% шанс 3-5x
+        if (rand < 75) return Math.random() * (7 - 5) + 5; // 25% шанс 5-7x
+        if (rand < 90) return Math.random() * (10 - 7) + 7; // 15% шанс 7-10x
+        return Math.random() * (15 - 10) + 10; // 10% шанс 10-15x
+      }
+
+      function createArrowIndicator() {
+        const percentages = [
+          "+5%",
+          "+7%",
+          "+10%",
+          "+15%",
+          "+20%",
+          "+25%",
+          "+30%",
+        ];
+        const indicator = document.createElement("div");
+        indicator.className = "arrow-indicator";
+        indicator.textContent =
+          percentages[Math.floor(Math.random() * percentages.length)];
+
+        // Случайное положение по горизонтали во всю ширину экрана
+        const randomX = Math.random() * (window.innerWidth - 60);
+
+        indicator.style.left = `${randomX}px`;
+        indicator.style.bottom = "20px";
+
+        arrowsContainer.appendChild(indicator);
+
+        // Удаляем элемент после завершения анимации
+        setTimeout(() => {
+          indicator.remove();
+        }, 1500);
+      }
+
+      function resetAnimation() {
+        // Очищаем все стрелочки при сбросе
+        const existingArrows = document.querySelectorAll(".arrow-indicator");
+        existingArrows.forEach((arrow) => arrow.remove());
+
+        counter = 0.0;
+        counterElement.textContent = counter.toFixed(2) + "x";
+        counterElement.style.color = "white";
+        x = 0;
+        y = canvas.height;
+        dotPath = [];
+        isAnimating = false;
+        startButton.disabled = false;
+      }
+
+      startButton.addEventListener("click", () => {
+        if (isAnimating) return;
+
+        isAnimating = true;
+        startButton.disabled = true;
+        randomStop = getRandomStop();
+
+        // Очищаем все существующие стрелочки при новом запуске
+        const existingArrows = document.querySelectorAll(".arrow-indicator");
+        existingArrows.forEach((arrow) => arrow.remove());
+
+        animate();
+      });
+
+      function animate() {
+        if (counter >= randomStop) {
+          counterElement.style.color = "#ff0033";
+          setTimeout(() => {
+            setTimeout(resetAnimation, 2000);
+          }, 2000);
+          return;
+        }
+
+        counter += 0.01;
+        counterElement.textContent = counter.toFixed(2) + "x";
+
+        // Создаем стрелочки с разной периодичностью
+        if (Math.random() < 0.1) {
+          // 10% шанс создания стрелочки на каждом кадре
+          createArrowIndicator();
+        }
+
+        x += speedX;
+        y = canvas.height / 2 + 50 * Math.cos(x / 100);
+
+        dotPath.push({ x: x, y: y });
+
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        const canvasOffsetX = canvas.width / 2 - x;
+        const canvasOffsetY = canvas.height / 2 - y;
+
+        ctx.save();
+        ctx.translate(canvasOffsetX, canvasOffsetY);
+
+        for (let i = 1; i < dotPath.length; i++) {
+          ctx.beginPath();
+          ctx.strokeStyle = "#dc3545";
+          ctx.lineWidth = 2;
+          ctx.moveTo(dotPath[i - 1].x, dotPath[i - 1].y);
+          ctx.lineTo(dotPath[i].x, dotPath[i].y);
+          ctx.stroke();
+        }
+
+        ctx.beginPath();
+        ctx.fillStyle = "#dc3545";
+        ctx.arc(x, y, 1, 0, 2 * Math.PI);
+        ctx.fill();
+
+        ctx.drawImage(image, x - 28, y - 78, 185, 85);
+
+        ctx.restore();
+
+        requestAnimationFrame(animate);
+      }
+
+      // Инициализация с 0.00x
+      resetAnimation();
+    </script>
+  </body>
+
+  <!-- Mirrored from negociowin.ru/xxx/aviator by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 28 Feb 2025 22:58:36 GMT -->
+</html>
